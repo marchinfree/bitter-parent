@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import './App.css';
 import Form from './Form'
-import { tsImportEqualsDeclaration } from '@babel/types';
 
 class App extends Component {
   constructor(){

@@ -70,9 +70,10 @@ class Form extends React.Component{
                 healthyFood: Math.floor(Math.random()*100)+1,
             })
             }) .then(()=>{
-            // console.log(this.state.healthyOptionsArray.length);
             console.log(this.state.healthyFood);
             })
+        }).catch(error =>{
+            alert(`we broke it!`)
         })
     }
 
