@@ -2,6 +2,25 @@ import React from 'react';
 import axios from 'axios';
 
 class Form extends React.Component{
+
+    constructor(){
+        super();
+        this.state = {
+            userInput: ''
+        }
+    }
+
+    
+    handleChange = (event) =>{
+        this.setState({
+            userInput: event.target.value
+        })
+        console.log(this.state.userInput);
+    }
+
+    handleSubmit = (event) =>{
+        event.preventDefault();
+    }
     
     getFoods = () => {
         axios({
@@ -9,7 +28,7 @@ class Form extends React.Component{
             dataResponse: 'JSON',
             method: 'POST',
             data: {
-            "query": "chocolate bar",
+            "query": this.state.userInput,
             },
             headers: {
             'x-app-id': '5bcbc45a',
@@ -30,7 +49,7 @@ class Form extends React.Component{
             dataResponse: 'JSON',
             method: 'POST',
             data: {
-                "query": "chocolate bar",
+                "query": this.state.userInput,
                 "detailed": true,
                 "common": true,
                 "branded": false,
@@ -78,11 +97,15 @@ class Form extends React.Component{
 //     })
 // })
 
+
   
     render(){
         return(
             <div>
-                <button onClick={this.getFoods}>this is a button</button>
+                <form action="" onSubmit={this.handleSubmit}>
+                    <input onChange={this.handleChange} type="text"></input>
+                    <button onClick={this.getFoods}>this is a button</button>
+                </form>
             </div>
         )
     }
