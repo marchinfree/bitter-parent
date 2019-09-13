@@ -3,6 +3,15 @@ import './App.css';
 import Form from './Form'
 import axios from 'axios';
 
+
+// TO DO on Sunday, Sept. 15,
+// Make component and modal to display healthy and junk food nutrients
+// Finish error handling for form
+// Create header component and JSX elements to be rendered
+// Create saved pairs component that will hold user's saved combinations of healthy food + junk food
+// Set up firebase storing + deleting
+// Set up routing to display comparison modal + saved pairs component 
+
 class App extends Component {
   constructor(){
     super();
@@ -10,8 +19,12 @@ class App extends Component {
       userInput: '',
       junkFood : {},
       healthyFood: {},
-      junkFoodSugar: {},
-      healthySugar: {},
+      junkFoodSugar: '',
+      healthySugar: '',
+      healthyFat: '',
+      healthyCalories: '',
+      healthyProtein: '',
+      healthyCarbs: '',
     }
   }
   
@@ -31,6 +44,7 @@ class App extends Component {
     this.setState({
         userInput: event.target.value
     })
+
   }
   
   getFoods = () => {
@@ -43,11 +57,12 @@ class App extends Component {
              "use_branded_foods": false,
         },
         headers: {
-        'x-app-id': '5bcbc45a',
-        'x-app-key': '8e9e3042c76246ec8cd2e04009e3b66e',
+        'x-app-id': '9e2a04b3',
+        'x-app-key': '58f30814d5c13971f51720cf37a6b7f7',
         },
     }).then((response) => {
         this.setState({
+          // NOTE for modal: to access micronutrients later, just use this.state.junkFood.nf_[nameOfNutrient]
             junkFood: response.data.foods[0],
             junkFoodSugar: response.data.foods[0].nf_sugars
         })
@@ -70,41 +85,66 @@ class App extends Component {
             }
         },
         headers: {
-            'x-app-id': '5bcbc45a',
-            'x-app-key': '8e9e3042c76246ec8cd2e04009e3b66e',
+            'x-app-id': '9e2a04b3',
+            'x-app-key': '58f30814d5c13971f51720cf37a6b7f7',
         }
         }) .then((results)=>{
             console.log(results);
             this.setState({
                 healthyFood: results.data.common[Math.floor(Math.random()*results.data.common.length)]
             })               
-            console.log(this.state.healthyFood);
-
+            // console.log(this.state.healthyFood);
         }) .then(() =>{
             const sugar = this.getNutrientValue(269,  this.state.healthyFood.full_nutrients);
-            // const carbs = this.getNutrientValue(268,  this.state.healthyFood.full_nutrients);
-            console.log(sugar);
-            // console.log(carbs);
+            const fat = this.getNutrientValue(204,  this.state.healthyFood.full_nutrients);
+            const protein = this.getNutrientValue(203,  this.state.healthyFood.full_nutrients);
+            const carbs = this.getNutrientValue(205,  this.state.healthyFood.full_nutrients);
+            const calories = this.getNutrientValue(208,  this.state.healthyFood.full_nutrients);
 
             this.setState({
-                healthyFoodSugar: sugar
+                healthySugar: sugar,
+                healthyFat: fat,
+                healthyProtein: protein,
+                healthyCarbs: carbs,
+                healthyCalories: calories,
             })
-            console.log(this.state.healthyFoodSugar);
+            console.log(this.state.healthySugar);
         })
-    }).catch(error =>{
-        alert(`we broke it!`)
+
     })
+    // .catch(error =>{
+    //     alert(`we broke it!`)
+    // })
 }
-
-
 
   render(){
     return (
       <div className="App">
-        
-        <Form handleChange={this.handleChange} getFoods={this.getFoods} />
 
-        <p>You are eating {this.state.junkFood.nf_sugars} grams of sugar</p>
+        <Form handleChange={this.handleChange} getFoods={this.getFoods} />
+        <p>{this.state.healthyFood.food_name} has {(this.state.junkFoodSugar - this.state.healthySugar)} fewer grams of sugar than {this.state.junkFood.food_name}</p>
+
+        <div><h2>Healthy Nutrients</h2>
+        <ul>
+            <li>Sugar: {this.state.healthySugar}</li>
+            <li>Fat: {this.state.healthyFat}</li>
+            <li>Calories: {this.state.healthyCalories}</li>
+            <li>Protein: {this.state.healthyProtein}</li>
+            <li>Carbs: {this.state.healthyCarbs}</li>
+        </ul>
+        </div>
+        <ul>
+          <h2>Junk food nutrients</h2>
+          <li>Sugar: {this.state.junkFoodSugar}</li>
+          <li>Fat: {this.state.junkFood.nf_total_fat}</li>
+          <li>Calories: {this.state.junkFood.nf_calories}</li>
+          <li>Protein: {this.state.junkFood.nf_protein}</li>
+          <li>Carbs: {this.state.junkFood.nf_total_carbohydrate}</li>
+        </ul>
+      <div>
+
+      </div>
+
       </div>
     );
   }
