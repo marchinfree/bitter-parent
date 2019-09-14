@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Form from './Form'
 import axios from 'axios';
+import Modal from './Modal/Modal';
 
 
 // TO DO on Sunday, Sept. 15,
@@ -13,11 +14,11 @@ import axios from 'axios';
 // Set up routing to display comparison modal + saved pairs component 
 
 class App extends Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {
       userInput: '',
-      junkFood : {},
+      junkFood: {},
       healthyFood: {},
       junkFoodSugar: '',
       healthySugar: '',
@@ -25,125 +26,151 @@ class App extends Component {
       healthyCalories: '',
       healthyProtein: '',
       healthyCarbs: '',
+      isShowing: false,
     }
   }
-  
+
   // getInfoFromForm = (event) =>{
   //   event.preventDefault();
   //   this.getFoods();
   // }
 
   getNutrientValue = (nutNum, array) => {
-    const nutrient = array.filter(sugarObject =>{
-        return sugarObject.attr_id === nutNum
+    const nutrient = array.filter(sugarObject => {
+      return sugarObject.attr_id === nutNum
     })
     return nutrient[0].value
   }
 
-  handleChange = (event) =>{
+  handleChange = (event) => {
     this.setState({
-        userInput: event.target.value
+      userInput: event.target.value
     })
 
   }
-  
+
   getFoods = () => {
     axios({
-        url: 'https://trackapi.nutritionix.com/v2/natural/nutrients',
-        dataResponse: 'JSON',
-        method: 'POST',
-        data: {
-             "query": this.state.userInput,
-             "use_branded_foods": false,
-        },
-        headers: {
+      url: 'https://trackapi.nutritionix.com/v2/natural/nutrients',
+      dataResponse: 'JSON',
+      method: 'POST',
+      data: {
+        "query": this.state.userInput,
+        "use_branded_foods": false,
+      },
+      headers: {
         'x-app-id': '9e2a04b3',
         'x-app-key': '58f30814d5c13971f51720cf37a6b7f7',
-        },
+      },
     }).then((response) => {
-        this.setState({
-          // NOTE for modal: to access micronutrients later, just use this.state.junkFood.nf_[nameOfNutrient]
-            junkFood: response.data.foods[0],
-            junkFoodSugar: response.data.foods[0].nf_sugars
-        })
-    }).then(()=>{
-        axios({
+      this.setState({
+        // NOTE for modal: to access micronutrients later, just use this.state.junkFood.nf_[nameOfNutrient]
+        junkFood: response.data.foods[0],
+        junkFoodSugar: response.data.foods[0].nf_sugars
+      })
+    }).then(() => {
+      axios({
         url: 'https://trackapi.nutritionix.com/v2/search/instant/',
         dataResponse: 'JSON',
         method: 'POST',
         data: {
-            "query": this.state.userInput,
-            "detailed": true,
-            "common": true,
-            "common_grocery": false,
-            "common_restaurant": false,
-            "branded": false,
-            "full_nutrients": {
+          "query": this.state.userInput,
+          "detailed": true,
+          "common": true,
+          "common_grocery": false,
+          "common_restaurant": false,
+          "branded": false,
+          "full_nutrients": {
             "269": {
-                "lte": (this.state.junkFoodSugar) - 10
+              "lte": (this.state.junkFoodSugar) - 10
             },
-            }
+          }
         },
         headers: {
-            'x-app-id': '9e2a04b3',
-            'x-app-key': '58f30814d5c13971f51720cf37a6b7f7',
+          'x-app-id': '9e2a04b3',
+          'x-app-key': '58f30814d5c13971f51720cf37a6b7f7',
         }
-        }) .then((results)=>{
-            console.log(results);
-            this.setState({
-                healthyFood: results.data.common[Math.floor(Math.random()*results.data.common.length)]
-            })               
-            // console.log(this.state.healthyFood);
-        }) .then(() =>{
-            const sugar = this.getNutrientValue(269,  this.state.healthyFood.full_nutrients);
-            const fat = this.getNutrientValue(204,  this.state.healthyFood.full_nutrients);
-            const protein = this.getNutrientValue(203,  this.state.healthyFood.full_nutrients);
-            const carbs = this.getNutrientValue(205,  this.state.healthyFood.full_nutrients);
-            const calories = this.getNutrientValue(208,  this.state.healthyFood.full_nutrients);
-
-            this.setState({
-                healthySugar: sugar,
-                healthyFat: fat,
-                healthyProtein: protein,
-                healthyCarbs: carbs,
-                healthyCalories: calories,
-            })
-            console.log(this.state.healthySugar);
+      }).then((results) => {
+        console.log(results);
+        this.setState({
+          healthyFood: results.data.common[Math.floor(Math.random() * results.data.common.length)]
         })
+        // console.log(this.state.healthyFood);
+      }).then(() => {
+        const sugar = this.getNutrientValue(269, this.state.healthyFood.full_nutrients);
+        const fat = this.getNutrientValue(204, this.state.healthyFood.full_nutrients);
+        const protein = this.getNutrientValue(203, this.state.healthyFood.full_nutrients);
+        const carbs = this.getNutrientValue(205, this.state.healthyFood.full_nutrients);
+        const calories = this.getNutrientValue(208, this.state.healthyFood.full_nutrients);
+
+        this.setState({
+          healthySugar: sugar,
+          healthyFat: fat,
+          healthyProtein: protein,
+          healthyCarbs: carbs,
+          healthyCalories: calories,
+        })
+        console.log(this.state.healthySugar);
+      })
 
     })
     // .catch(error =>{
     //     alert(`we broke it!`)
     // })
-}
+  }
 
-  render(){
+  openModalHandler = () => {
+    this.setState({
+      isShowing: true
+    });
+  }
+
+  closeModalHandler = () => {
+    this.setState({
+      isShowing: false
+    });
+  }
+
+  render() {
     return (
       <div className="App">
 
         <Form handleChange={this.handleChange} getFoods={this.getFoods} />
         <p>{this.state.healthyFood.food_name} has {(this.state.junkFoodSugar - this.state.healthySugar)} fewer grams of sugar than {this.state.junkFood.food_name}</p>
 
-        <div><h2>Healthy Nutrients</h2>
-        <ul>
+        <div>
+          <h2>Healthy Nutrients</h2>
+          <ul>
             <li>Sugar: {this.state.healthySugar}</li>
             <li>Fat: {this.state.healthyFat}</li>
             <li>Calories: {this.state.healthyCalories}</li>
             <li>Protein: {this.state.healthyProtein}</li>
             <li>Carbs: {this.state.healthyCarbs}</li>
-        </ul>
+          </ul>
         </div>
-        <ul>
-          <h2>Junk food nutrients</h2>
-          <li>Sugar: {this.state.junkFoodSugar}</li>
-          <li>Fat: {this.state.junkFood.nf_total_fat}</li>
-          <li>Calories: {this.state.junkFood.nf_calories}</li>
-          <li>Protein: {this.state.junkFood.nf_protein}</li>
-          <li>Carbs: {this.state.junkFood.nf_total_carbohydrate}</li>
-        </ul>
-      <div>
+        <div>
+          <ul>
+            <h2>Junk food nutrients</h2>
+            <li>Sugar: {this.state.junkFoodSugar}</li>
+            <li>Fat: {this.state.junkFood.nf_total_fat}</li>
+            <li>Calories: {this.state.junkFood.nf_calories}</li>
+            <li>Protein: {this.state.junkFood.nf_protein}</li>
+            <li>Carbs: {this.state.junkFood.nf_total_carbohydrate}</li>
+          </ul>
+        </div>
+        <div>
+          {this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null}
 
-      </div>
+          <button className="open-modal-btn" onClick={this.openModalHandler}>Open Modal</button>
+
+          <Modal
+            className="modal"
+            show={this.state.isShowing}
+            close={this.closeModalHandler}>
+            Maybe aircrafts fly very high because they don't want to be seen in plane sight?
+          </Modal>
+
+        </div>
 
       </div>
     );
