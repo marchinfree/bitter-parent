@@ -3,10 +3,11 @@ import './App.css';
 import Form from './Form'
 import axios from 'axios';
 import Modal from './Modal/Modal';
+import Firebase from './Firebase.js';
 
 
 // TO DO on Sunday, Sept. 15,
-// Make component and modal to display healthy and junk food nutrients
+// Make component and modal to display healthy and junk food nutrients ---DONE---
 // Finish error handling for form
 // Create header component and JSX elements to be rendered
 // Create saved pairs component that will hold user's saved combinations of healthy food + junk food
