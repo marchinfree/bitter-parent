@@ -113,12 +113,18 @@ class App extends Component {
         console.log(this.state.healthySugar);
       })
 
+    }).then(() => {
+      this.setState({
+        isShowing: true
+      });
+
     })
-    // .catch(error =>{
-    //     alert(`we broke it!`)
-    // })
+    .catch(error =>{
+        alert(`we broke it!`)
+    })
   }
 
+  // DO WE NEED THIS NOW?
   openModalHandler = () => {
     this.setState({
       isShowing: true
@@ -131,43 +137,46 @@ class App extends Component {
     });
   }
 
+
+
   render() {
     return (
       <div className="App">
 
         <Form handleChange={this.handleChange} getFoods={this.getFoods} />
-        <p>{this.state.healthyFood.food_name} has {(this.state.junkFoodSugar - this.state.healthySugar)} fewer grams of sugar than {this.state.junkFood.food_name}</p>
 
-        <div>
-          <h2>Healthy Nutrients</h2>
-          <ul>
-            <li>Sugar: {this.state.healthySugar}</li>
-            <li>Fat: {this.state.healthyFat}</li>
-            <li>Calories: {this.state.healthyCalories}</li>
-            <li>Protein: {this.state.healthyProtein}</li>
-            <li>Carbs: {this.state.healthyCarbs}</li>
-          </ul>
-        </div>
-        <div>
-          <ul>
-            <h2>Junk food nutrients</h2>
-            <li>Sugar: {this.state.junkFoodSugar}</li>
-            <li>Fat: {this.state.junkFood.nf_total_fat}</li>
-            <li>Calories: {this.state.junkFood.nf_calories}</li>
-            <li>Protein: {this.state.junkFood.nf_protein}</li>
-            <li>Carbs: {this.state.junkFood.nf_total_carbohydrate}</li>
-          </ul>
-        </div>
         <div>
           {this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null}
 
-          <button className="open-modal-btn" onClick={this.openModalHandler}>Open Modal</button>
+          {/* <button className="open-modal-btn" onClick={this.openModalHandler}>Open Modal</button> */}
 
           <Modal
             className="modal"
             show={this.state.isShowing}
             close={this.closeModalHandler}>
-            Maybe aircrafts fly very high because they don't want to be seen in plane sight?
+            <div>
+              <p>{this.state.healthyFood.food_name} has {(this.state.junkFoodSugar - this.state.healthySugar)} fewer grams of sugar than {this.state.junkFood.food_name}</p>
+            </div>
+            <div>
+              <h2>Healthy Nutrients</h2>
+              <ul>
+                <li>Sugar: {this.state.healthySugar}</li>
+                <li>Fat: {this.state.healthyFat}</li>
+                <li>Calories: {this.state.healthyCalories}</li>
+                <li>Protein: {this.state.healthyProtein}</li>
+                <li>Carbs: {this.state.healthyCarbs}</li>
+              </ul>
+            </div>
+            <div>
+              <ul>
+                <h2>Junk food nutrients</h2>
+                <li>Sugar: {this.state.junkFoodSugar}</li>
+                <li>Fat: {this.state.junkFood.nf_total_fat}</li>
+                <li>Calories: {this.state.junkFood.nf_calories}</li>
+                <li>Protein: {this.state.junkFood.nf_protein}</li>
+                <li>Carbs: {this.state.junkFood.nf_total_carbohydrate}</li>
+              </ul>
+            </div>
           </Modal>
 
         </div>

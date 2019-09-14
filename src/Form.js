@@ -16,11 +16,15 @@ class Form extends React.Component{
     //         userInput: e.target.value
     //     })
     // }
+
+
     handleSubmit = (event) =>{
         event.preventDefault();
         this.props.getFoods();
+        // this.openModalHandler();
     }
-    
+
+
     render(){
         return(
             <div>
@@ -33,5 +37,6 @@ class Form extends React.Component{
     }
 
 }
+
 
 export default Form;
