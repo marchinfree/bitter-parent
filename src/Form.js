@@ -16,22 +16,27 @@ class Form extends React.Component{
     //         userInput: e.target.value
     //     })
     // }
+
+
     handleSubmit = (event) =>{
         event.preventDefault();
         this.props.getFoods();
+        // this.openModalHandler();
     }
-    
+
+
     render(){
         return(
             <div>
                 <form action="" onSubmit={this.handleSubmit}>
                     <input onChange={this.props.handleChange} type="text"></input>
-                    <button onClick={this.props.getFoods} >this is a button</button>
+                    <button onClick={this.props.getFoods}>this is a button</button>
                 </form>
             </div>
         )
     }
 
 }
+
 
 export default Form;
