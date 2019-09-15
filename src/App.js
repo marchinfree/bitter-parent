@@ -71,7 +71,7 @@ class App extends Component {
   }
 
  // this adds items to the community board / firebase ----Need to put this function on modal button
- handleSubmit = (event) => {
+ handleFireSave = (event) => {
 
   event.preventDefault();
 
@@ -234,7 +234,7 @@ class App extends Component {
           {/* testing firebase ---THIS WILL BECOME THE SAVED PAIRS PAGE---HOW TO SAVE PAIRS? */}
 
           <div className="board-button">
-            <button type="button" className="add-button" onClick={this.handleSubmit}>Add to board</button>
+            <button type="button" className="add-button" onClick={this.handleFireSave}>Add to board</button>
 
           </div>
           <div>
