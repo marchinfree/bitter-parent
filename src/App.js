@@ -3,7 +3,7 @@ import './App.css';
 import Form from './Form'
 import axios from 'axios';
 import Modal from './Modal/Modal';
-import Firebase from './Firebase.js';
+import firebase from './Firebase.js';
 
 
 // TO DO on Sunday, Sept. 15,
@@ -28,8 +28,58 @@ class App extends Component {
       healthyProtein: '',
       healthyCarbs: '',
       isShowing: false,
+      fireFoods: [],
     }
   }
+
+  // ADDED COMPONENT DID MOUNT
+  componentDidMount() {
+
+    // stores what database looks like
+    const dbRef = firebase.database().ref();
+    // monitors stores and returns changes
+    dbRef.on('value', (data) => {
+      // this only returns the items
+      const response = data.val();
+
+      //  create array for new state
+      const newState = [];
+
+      // loop through new state
+      for (let key in response) {
+        newState.push({
+          title: response[key],
+          uniqueKey: key,
+        });
+
+      }
+
+      // set new foods state
+      this.setState({
+        fireFoods: newState,
+      });
+    });
+
+  }
+
+  // function to remove item from board
+  removeFoods = (foodId) => {
+    const dbRef = firebase.database().ref();
+
+    dbRef.child(foodId).remove();
+
+  }
+
+ // this adds a items to the community board / firebase
+ handleSubmit = (event) => {
+
+  event.preventDefault();
+
+  const dbRef = firebase.database().ref();
+
+  dbRef.push(this.state.healthyFood.food_name);
+
+};
 
   // getInfoFromForm = (event) =>{
   //   event.preventDefault();
@@ -120,9 +170,9 @@ class App extends Component {
       });
 
     })
-    .catch(error =>{
+      .catch(error => {
         alert(`we broke it!`)
-    })
+      })
   }
 
   // DO WE NEED THIS NOW?
@@ -179,6 +229,25 @@ class App extends Component {
               </ul>
             </div>
           </Modal>
+
+          {/* testing firebase */}
+
+          <div className="board-button">
+            <button type="button" className="add-button" onClick={this.handleSubmit}>Add to board</button>
+
+          </div>
+          <div>
+            <h2>Fave pairs</h2>
+            <ul>
+              {this.state.fireFoods.map(foods => {
+                return (
+                  <li key={foods.uniqueKey}>
+                    <p>{foods.title}<span><button className="remove-button" onClick={() => this.removeFoods(foods.uniqueKey)}>Remove</button></span></p>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
 
         </div>
 
