@@ -29,6 +29,7 @@ class App extends Component {
       healthyCarbs: '',
       isShowing: false,
       fireFoods: [],
+      savedPair: [],
     }
   }
 
@@ -77,7 +78,7 @@ class App extends Component {
 
   const dbRef = firebase.database().ref();
 
-  dbRef.push(this.state.healthyFood.food_name);
+  dbRef.push(this.state.savedPair);
 
 };
 
@@ -142,7 +143,7 @@ class App extends Component {
           'x-app-key': '58f30814d5c13971f51720cf37a6b7f7',
         }
       }).then((results) => {
-        console.log(results);
+        // console.log(results);
         this.setState({
           healthyFood: results.data.common[Math.floor(Math.random() * results.data.common.length)]
         })
@@ -169,10 +170,18 @@ class App extends Component {
         isShowing: true
       });
 
-    })
-      .catch(error => {
-        alert(`we broke it!`)
+    }).then(() => {
+      const foodPairing = [];
+      foodPairing.push(this.state.junkFoodSugar, this.state.healthySugar)
+      this.setState({
+        savedPair: foodPairing
+
       })
+      console.log(this.state.savedPair);
+    })
+      // .catch(error => {
+      //   alert(`we broke it!`)
+      // })
   }
 
   // DO WE NEED THESE NOW?
