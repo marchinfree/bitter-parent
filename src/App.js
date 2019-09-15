@@ -29,7 +29,7 @@ class App extends Component {
       healthyCarbs: '',
       isShowing: false,
       fireFoods: [],
-      savedPair: {},
+      savedPair: [],
       savedPairName: '',
 
     }
@@ -88,9 +88,26 @@ class App extends Component {
   // })
 
 
-  const dbRef = firebase.database().ref();
+  // this.setState({
+  //   savedPair: {
+  //     junkSugar: this.state.junkFoodSugar,
+  //     healthySugar: this.state.healthySugar,
+  //     healthyFat: this.state.healthyFat,
+  //     // healthyProtein: this.state.healthyProtein,
+  //     // healthyCarbs: this.state.healthyCarbs,
+  //     // healthyCalories: this.state.healthyCalories,
+  //   },
+  //   savedPairName: ''.concat(this.state.junkFood.food_name, this.state.healthyFood.food_name)
 
-  dbRef.push(this.state.savedPair);
+  // })
+
+
+  const dbRef = firebase.database().ref('userPair /');
+  dbRef.set({
+    thisIsTheSugar: this.state.healthySugar,
+    thisIsTheCalories: this.state.healthyCalories
+  });
+
 
 
 };
@@ -156,11 +173,9 @@ class App extends Component {
           'x-app-key': '58f30814d5c13971f51720cf37a6b7f7',
         }
       }).then((results) => {
-        // console.log(results);
         this.setState({
           healthyFood: results.data.common[Math.floor(Math.random() * results.data.common.length)]
         })
-        // console.log(this.state.healthyFood);
       }).then(() => {
         const sugar = this.getNutrientValue(269, this.state.healthyFood.full_nutrients);
         const fat = this.getNutrientValue(204, this.state.healthyFood.full_nutrients);
@@ -175,28 +190,31 @@ class App extends Component {
           healthyCarbs: carbs,
           healthyCalories: calories,
         })
-        console.log(this.state.healthySugar);
       })
 
     }).then(() => {
       this.setState({
-        isShowing: true
+        isShowing: true,
       });
 
-    }).then(() => {
-      this.setState({
-        savedPair: this.state.junkFoodSugar,
-        savedPairName: (this.state.junkFood.food_name + "/" + this.state.healthyFood.food_name)
-
-      })
-      console.log(this.state.healthyFood)
     })
-  
-
-      .catch(error => {
+    .catch(error => {
         alert(`we broke it!`)
       })
+  
   }
+
+
+  
+
+
+    
+
+
+
+    
+
+
 
   // function to save user pairs
   // saveUserPairs = () => {
