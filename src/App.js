@@ -11,7 +11,7 @@ import firebase from './Firebase.js';
 // Finish error handling for form
 // Create header component and JSX elements to be rendered
 // Create saved pairs component that will hold user's saved combinations of healthy food + junk food
-// Set up firebase storing + deleting
+// Set up firebase storing + deleting -----DONE ------
 // Set up routing to display comparison modal + saved pairs component 
 
 class App extends Component {
@@ -62,7 +62,7 @@ class App extends Component {
 
   }
 
-  // function to remove item from board
+  // function to remove item from board ---this will live on new pairs page
   removeFoods = (foodId) => {
     const dbRef = firebase.database().ref();
 
@@ -70,7 +70,7 @@ class App extends Component {
 
   }
 
- // this adds a items to the community board / firebase
+ // this adds items to the community board / firebase ----Need to put this function on modal button
  handleSubmit = (event) => {
 
   event.preventDefault();
@@ -175,7 +175,7 @@ class App extends Component {
       })
   }
 
-  // DO WE NEED THIS NOW?
+  // DO WE NEED THESE NOW?
   openModalHandler = () => {
     this.setState({
       isShowing: true
@@ -201,6 +201,7 @@ class App extends Component {
 
           {/* <button className="open-modal-btn" onClick={this.openModalHandler}>Open Modal</button> */}
 
+{/* ALL RESULTS NOW LIVE IN THE MODAL, NEED TO FLIP CARDS */}
           <Modal
             className="modal"
             show={this.state.isShowing}
@@ -230,7 +231,7 @@ class App extends Component {
             </div>
           </Modal>
 
-          {/* testing firebase */}
+          {/* testing firebase ---THIS WILL BECOME THE SAVED PAIRS PAGE---HOW TO SAVE PAIRS? */}
 
           <div className="board-button">
             <button type="button" className="add-button" onClick={this.handleSubmit}>Add to board</button>
