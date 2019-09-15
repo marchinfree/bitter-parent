@@ -29,6 +29,7 @@ class App extends Component {
       healthyCarbs: '',
       isShowing: false,
       fireFoods: [],
+      everythingHealthy: [],
     }
   }
 
@@ -50,8 +51,9 @@ class App extends Component {
         newState.push({
           title: response[key],
           uniqueKey: key,
+          // response[key]
         });
-
+        console.log("this is the new state!", newState);
       }
 
       // set new foods state
@@ -74,10 +76,9 @@ class App extends Component {
  handleFireSave = (event) => {
 
   event.preventDefault();
-
+  this.collectHealthyInfo();
   const dbRef = firebase.database().ref();
-
-  dbRef.push(this.state.healthyFood.food_name);
+  dbRef.update(this.state.allOfTheHealthy);
 
 };
 
@@ -110,8 +111,8 @@ class App extends Component {
         "use_branded_foods": false,
       },
       headers: {
-        'x-app-id': '9e2a04b3',
-        'x-app-key': '58f30814d5c13971f51720cf37a6b7f7',
+        'x-app-id': '4424dc15',
+        'x-app-key': 'adf9b4e2b35bea41e8e10c775b249104',
       },
     }).then((response) => {
       this.setState({
@@ -138,8 +139,8 @@ class App extends Component {
           }
         },
         headers: {
-          'x-app-id': '9e2a04b3',
-          'x-app-key': '58f30814d5c13971f51720cf37a6b7f7',
+          'x-app-id': '4424dc15',
+          'x-app-key': 'adf9b4e2b35bea41e8e10c775b249104',
         }
       }).then((results) => {
         console.log(results);
@@ -160,8 +161,15 @@ class App extends Component {
           healthyProtein: protein,
           healthyCarbs: carbs,
           healthyCalories: calories,
+          allOfTheHealthy: {
+            healthySugar: sugar,
+            healthyFat: fat,
+            healthyProtein: protein,
+            healthyCarbs: carbs,
+            healthyCalories: calories,
+          }
         })
-        console.log(this.state.healthySugar);
+        // console.log("this is the object we want to push", this.state.allOfTheHealthy);
       })
 
     }).then(() => {
@@ -188,7 +196,9 @@ class App extends Component {
     });
   }
 
-
+  collectHealthyInfo = () => {
+    this.state.everythingHealthy.push(this.state.allOfTheHealthy)
+  }
 
   render() {
     return (
@@ -210,7 +220,7 @@ class App extends Component {
               <p>{this.state.healthyFood.food_name} has {(this.state.junkFoodSugar - this.state.healthySugar)} fewer grams of sugar than {this.state.junkFood.food_name}</p>
             </div>
             <div>
-              <h2>Healthy Nutrients</h2>
+              <h2>{this.state.healthyFood.food_name}</h2>
               <ul>
                 <li>Sugar: {this.state.healthySugar}</li>
                 <li>Fat: {this.state.healthyFat}</li>
@@ -241,6 +251,7 @@ class App extends Component {
             <h2>Fave pairs</h2>
             <ul>
               {this.state.fireFoods.map(foods => {
+                // console.log("this is foods" ,foods);
                 return (
                   <li key={foods.uniqueKey}>
                     <p>{foods.title}<span><button className="remove-button" onClick={() => this.removeFoods(foods.uniqueKey)}>Remove</button></span></p>
