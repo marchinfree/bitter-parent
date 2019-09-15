@@ -29,7 +29,9 @@ class App extends Component {
       healthyCarbs: '',
       isShowing: false,
       fireFoods: [],
-      savedPair: [],
+      savedPair: {},
+      savedPairName: '',
+
     }
   }
 
@@ -76,9 +78,20 @@ class App extends Component {
 
   event.preventDefault();
 
+
+
+  // const foodPairing = [];
+  // foodPairing.push(this.state.junkFoodSugar, this.state.healthySugar)
+  // this.setState({
+  //   savedPair: foodPairing
+
+  // })
+
+
   const dbRef = firebase.database().ref();
 
   dbRef.push(this.state.savedPair);
+
 
 };
 
@@ -171,18 +184,28 @@ class App extends Component {
       });
 
     }).then(() => {
-      const foodPairing = [];
-      foodPairing.push(this.state.junkFoodSugar, this.state.healthySugar)
       this.setState({
-        savedPair: foodPairing
+        savedPair: this.state.junkFoodSugar,
+        savedPairName: (this.state.junkFood.food_name + "/" + this.state.healthyFood.food_name)
 
       })
-      console.log(this.state.savedPair);
+      console.log(this.state.healthyFood)
     })
-      // .catch(error => {
-      //   alert(`we broke it!`)
-      // })
+  
+
+      .catch(error => {
+        alert(`we broke it!`)
+      })
   }
+
+  // function to save user pairs
+  // saveUserPairs = () => {
+  //   const foodPairing = [];
+  //   foodPairing.push(this.state.junkFoodSugar, this.state.healthySugar)
+  //   this.setState({
+  //     savedPair: foodPairing
+
+  //   })
 
   // DO WE NEED THESE NOW?
   openModalHandler = () => {
