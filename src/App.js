@@ -33,6 +33,7 @@ class App extends Component {
       isShowing: false,
       fireFoods: [],
       everythingHealthy: [],
+      buttonClicked: false,
     }
   }
 
@@ -72,9 +73,8 @@ class App extends Component {
 
   }
 
- // this adds items to the community board / firebase ----Need to put this function on modal button
+ // this adds items to the community board / firebase 
  handleFireSave = (event) => {
-
   event.preventDefault();
   const junkAndHealthyData = {
     junk: this.state.allOfTheJunk,
@@ -82,14 +82,11 @@ class App extends Component {
   };
   const dbRef = firebase.database().ref();
   dbRef.push(junkAndHealthyData);
-
-
+  this.setState({
+    buttonClicked: true,
+  })
 };
 
-  // getInfoFromForm = (event) =>{
-  //   event.preventDefault();
-  //   this.getFoods();
-  // }
 
   getNutrientValue = (nutNum, array) => {
     const nutrient = array.filter(sugarObject => {
@@ -198,10 +195,8 @@ class App extends Component {
     }).then(() => {
       this.setState({
         savedPair: this.state.junkFoodSugar,
-        savedPairName: (this.state.junkFood.food_name + "/" + this.state.healthyFood.food_name)
-
+        savedPairName: (this.state.junkFood.food_name + "/" + this.state.healthyFood.food_name),
       })
-      console.log(this.state.healthyFood)
     })
   
 
@@ -240,7 +235,6 @@ class App extends Component {
           <Link exact to="/MySavedFoods">Saved Combos</Link>
           <Link to="/">Home</Link>
         </nav>
-        <Route exact path="/" component={App} />
         <Route path="/MySavedFoods"
               render={() =>{
                 return <SavedPairs removeFoods={this.removeFoods} fireFoods={this.state.fireFoods} />
@@ -260,7 +254,8 @@ class App extends Component {
               close={this.closeModalHandler}
               handleFireSave={this.handleFireSave}
               allOfTheJunk={this.state.allOfTheJunk}
-              allOfTheHealthy={this.state.allOfTheHealthy}>
+              allOfTheHealthy={this.state.allOfTheHealthy}
+              buttonClicked={this.state.buttonClicked}>
               <ModalDisplay 
                 healthyFood={this.state.healthyFood}
                 healthySugar={this.state.healthySugar}
@@ -272,6 +267,7 @@ class App extends Component {
                 junkFoodFat={this.state.junkFoodFat}
                 junkFoodCalories={this.state.junkFoodCalories}
                 junkFoodCarbs={this.state.junkFoodCarbs}
+
               />
             </Modal>
             </div>

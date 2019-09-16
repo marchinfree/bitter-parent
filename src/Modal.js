@@ -19,7 +19,7 @@ const modal = (props) => {
                 </div>
                 <div className="modal-footer">
                     <button className="btn-cancel" onClick={props.close}>CLOSE</button>
-                    <button className="add-button" type="button" onClick={props.handleFireSave}>Add to board</button>
+                    <button className="add-button" type="button" onClick={props.handleFireSave} disabled={props.buttonClicked===true ? true : false}>Add to board</button>
                 </div>
             </div>
         </div>
