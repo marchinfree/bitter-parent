@@ -1,12 +1,14 @@
 import React from 'react';
 
 class SavedPairs extends React.Component{
-    render(){
+    render(props){
+        console.log("this is props", this.props);
+
         return(
             <div>
                 <h2>Fave pairs</h2>
                 <ul>
-                {this.props.fireFoods.map(foods => {
+                    {this.props.fireFoods.map(foods => {
                     // const arrayOfKeys = Object.keys(foods);
                     return (
                     <li key={foods.uniqueKey}>
