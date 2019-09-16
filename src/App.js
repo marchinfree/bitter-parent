@@ -80,6 +80,7 @@ class App extends Component {
   const dbRef = firebase.database().ref();
   dbRef.push(junkAndHealthyData);
 
+
 };
 
   // getInfoFromForm = (event) =>{
@@ -191,11 +192,29 @@ class App extends Component {
         isShowing: true
       });
 
+    }).then(() => {
+      this.setState({
+        savedPair: this.state.junkFoodSugar,
+        savedPairName: (this.state.junkFood.food_name + "/" + this.state.healthyFood.food_name)
+
+      })
+      console.log(this.state.healthyFood)
     })
+  
+
       .catch(error => {
         alert(`we broke it!`)
       })
   }
+
+  // function to save user pairs
+  // saveUserPairs = () => {
+  //   const foodPairing = [];
+  //   foodPairing.push(this.state.junkFoodSugar, this.state.healthySugar)
+  //   this.setState({
+  //     savedPair: foodPairing
+
+  //   })
 
   // DO WE NEED THESE NOW?
   openModalHandler = () => {
