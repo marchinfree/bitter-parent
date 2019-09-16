@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 import Form from './Form'
 import axios from 'axios';
-import Modal from './Modal/Modal';
+import Modal from './Modal';
+import ModalDisplay from './ModalDisplay';
 import firebase from './Firebase.js';
-
+import SavedPairs from './SavedPairs';
 
 // TO DO on Sunday, Sept. 15,
 // Make component and modal to display healthy and junk food nutrients ---DONE---
@@ -249,69 +250,22 @@ class App extends Component {
             handleFireSave={this.handleFireSave}
             allOfTheJunk={this.state.allOfTheJunk}
             allOfTheHealthy={this.state.allOfTheHealthy}>
-            <div>
-              <p>{this.state.healthyFood.food_name} has {(this.state.junkFoodSugar - this.state.healthySugar)} fewer grams of sugar than {this.state.junkFood.food_name}</p>
-            </div>
-            <div>
-              <h2>{this.state.healthyFood.food_name}</h2>
-              <ul>
-                <li>Sugar: {this.state.healthySugar}</li>
-                <li>Fat: {this.state.healthyFat}</li>
-                <li>Calories: {this.state.healthyCalories}</li>
-                <li>Protein: {this.state.healthyProtein}</li>
-                <li>Carbs: {this.state.healthyCarbs}</li>
-                <li>Serving Size: {this.state.healthyFood.serving_qty}  {this.state.healthyFood.serving_unit}</li>
-              </ul>
-            </div>
-            <div>
-              <ul>
-                <h2>Junk food nutrients</h2>
-                <li>Sugar: {this.state.junkFoodSugar}</li>
-                <li>Fat: {this.state.junkFood.nf_total_fat}</li>
-                <li>Calories: {this.state.junkFood.nf_calories}</li>
-                <li>Protein: {this.state.junkFood.nf_protein}</li>
-                <li>Carbs: {this.state.junkFood.nf_total_carbohydrate}</li>
-                <li>Serving size: {this.state.junkFood.serving_qty} {this.state.junkFood.serving_unit}</li>
-              </ul>
-            </div>
+            <ModalDisplay 
+              healthyFood={this.state.healthyFood}
+              healthySugar={this.state.healthySugar}
+              healthyFat={this.state.healthyFat}
+              healthyCalories={this.state.healthyCalories}
+              healthyCarbs={this.state.healthyCarbs}
+              junkFood={this.state.junkFood}
+              junkFoodSugar={this.state.junkFoodSugar}
+              junkFoodFat={this.state.junkFoodFat}
+              junkFoodCalories={this.state.junkFoodCalories}
+              junkFoodCarbs={this.state.junkFoodCarbs}
+            />
           </Modal>
+          <SavedPairs removeFoods={this.removeFoods} fireFoods={this.state.fireFoods} />
 
-          {/* testing firebase ---THIS WILL BECOME THE SAVED PAIRS PAGE---HOW TO SAVE PAIRS? */}
-
-          {/* <div className="board-button">
-            <button type="button" className="add-button" onClick={this.handleFireSave}>Add to board</button>
-
-          </div> */}
-          <div>
-            <h2>Fave pairs</h2>
-            <ul>
-              {this.state.fireFoods.map(foods => {
-                // const arrayOfKeys = Object.keys(foods);
-                return (
-                  <li key={foods.uniqueKey}>
-                    <h2>{foods.title.junk.junkName} vs. {foods.title.healthy.healthyName}</h2>
-                    <ul className="healthyInfo">
-                      <li>Calories: {foods.title.healthy.healthyCalories}</li>
-                      <li>Serving Size: {foods.title.healthy.healthyServingSize.quantity} {foods.title.healthy.healthyServingSize.unit}</li>
-                      <li>Sugar: {foods.title.healthy.healthySugar}</li>
-                      <li>Protein: {foods.title.healthy.healthyProtein}</li>
-                      <li>Fat: {foods.title.healthy.healthyFat}</li>
-                      <li>Carbs: {foods.title.healthy.healthyCarbs}</li>
-                    </ul>
-                    <ul className="junkInfo">
-                      <li>Calories: {foods.title.junk.junkCalories}</li>
-                      <li>Serving Size: {foods.title.junk.junkServingSize.quantity} {foods.title.junk.junkServingSize.unit}</li>
-                      <li>Sugar: {foods.title.junk.junkSugar}</li>
-                      <li>Protein: {foods.title.junk.junkProtein}</li>
-                      <li>Fat: {foods.title.junk.junkFat}</li>
-                      <li>Carbs: {foods.title.junk.junkCarbs}</li>
-                    </ul>
-                    <span><button className="remove-button" onClick={() => this.removeFoods(foods.uniqueKey)}>Remove</button></span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+          
 
         </div>
 
