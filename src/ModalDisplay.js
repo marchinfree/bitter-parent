@@ -4,7 +4,7 @@ class ModalDisplay extends React.Component{
     render(){
         return(
             <div>
-                <p>{this.props.healthyFood.food_name} has {(this.props.junkFoodSugar - this.props.healthySugar)} fewer grams of sugar than {this.props.junkFood.food_name}</p>
+                <div>{this.props.healthyFood.food_name} has {(this.props.junkFoodSugar - this.props.healthySugar)} fewer grams of sugar than {this.props.junkFood.food_name}</div>
                 <div>
                   <h2>{this.props.healthyFood.food_name}</h2>
                   <ul>

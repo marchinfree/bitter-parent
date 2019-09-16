@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import './App.css';
 import Form from './Form'
 import axios from 'axios';
+import Header from './Header';
 import Modal from './Modal';
 import ModalDisplay from './ModalDisplay';
 import firebase from './Firebase.js';
 import SavedPairs from './SavedPairs';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 // TO DO on Sunday, Sept. 15,
 // Make component and modal to display healthy and junk food nutrients ---DONE---
@@ -113,8 +115,8 @@ class App extends Component {
         "use_branded_foods": false,
       },
       headers: {
-        'x-app-id': '4424dc15',
-        'x-app-key': 'adf9b4e2b35bea41e8e10c775b249104',
+        'x-app-id': '5bcbc45a',
+        'x-app-key': '8e9e3042c76246ec8cd2e04009e3b66e',
       },
     }).then((response) => {
       this.setState({
@@ -153,8 +155,8 @@ class App extends Component {
           }
         },
         headers: {
-          'x-app-id': '4424dc15',
-          'x-app-key': 'adf9b4e2b35bea41e8e10c775b249104',
+          'x-app-id': '5bcbc45a',
+          'x-app-key': '8e9e3042c76246ec8cd2e04009e3b66e',
         }
       }).then((results) => {
         this.setState({
@@ -233,43 +235,49 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-
-        <Form handleChange={this.handleChange} getFoods={this.getFoods} />
-
-        <div>
-          {this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null}
-
-          {/* <button className="open-modal-btn" onClick={this.openModalHandler}>Open Modal</button> */}
-
-{/* ALL RESULTS NOW LIVE IN THE MODAL, NEED TO FLIP CARDS */}
-          <Modal
-            className="modal"
-            show={this.state.isShowing}
-            close={this.closeModalHandler}
-            handleFireSave={this.handleFireSave}
-            allOfTheJunk={this.state.allOfTheJunk}
-            allOfTheHealthy={this.state.allOfTheHealthy}>
-            <ModalDisplay 
-              healthyFood={this.state.healthyFood}
-              healthySugar={this.state.healthySugar}
-              healthyFat={this.state.healthyFat}
-              healthyCalories={this.state.healthyCalories}
-              healthyCarbs={this.state.healthyCarbs}
-              junkFood={this.state.junkFood}
-              junkFoodSugar={this.state.junkFoodSugar}
-              junkFoodFat={this.state.junkFoodFat}
-              junkFoodCalories={this.state.junkFoodCalories}
-              junkFoodCarbs={this.state.junkFoodCarbs}
+      <Router>
+        <nav>
+          <Link exact to="/MySavedFoods">Saved Combos</Link>
+          <Link to="/">Home</Link>
+        </nav>
+        <Route exact path="/" component={App} />
+        <Route path="/MySavedFoods"
+              render={() =>{
+                return <SavedPairs removeFoods={this.removeFoods} fireFoods={this.state.fireFoods} />
+                } 
+              }
             />
-          </Modal>
-          <SavedPairs removeFoods={this.removeFoods} fireFoods={this.state.fireFoods} />
-
-          
-
+        <div className="App">
+          <Header />
+          <Form handleChange={this.handleChange} getFoods={this.getFoods} />
+  
+          <div>
+            {this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null}
+            {/* <button className="open-modal-btn" onClick={this.openModalHandler}>Open Modal</button> */}
+            <Modal
+              className="modal"
+              show={this.state.isShowing}
+              close={this.closeModalHandler}
+              handleFireSave={this.handleFireSave}
+              allOfTheJunk={this.state.allOfTheJunk}
+              allOfTheHealthy={this.state.allOfTheHealthy}>
+              <ModalDisplay 
+                healthyFood={this.state.healthyFood}
+                healthySugar={this.state.healthySugar}
+                healthyFat={this.state.healthyFat}
+                healthyCalories={this.state.healthyCalories}
+                healthyCarbs={this.state.healthyCarbs}
+                junkFood={this.state.junkFood}
+                junkFoodSugar={this.state.junkFoodSugar}
+                junkFoodFat={this.state.junkFoodFat}
+                junkFoodCalories={this.state.junkFoodCalories}
+                junkFoodCarbs={this.state.junkFoodCarbs}
+              />
+            </Modal>
+            </div>
         </div>
-
-      </div>
+       
+      </Router>
     );
   }
 }
