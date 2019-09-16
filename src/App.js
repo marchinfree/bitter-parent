@@ -42,7 +42,6 @@ class App extends Component {
     dbRef.on('value', (data) => {
       // this only returns the items
       const response = data.val();
-
       //  create array for new state
       const newState = [];
 
@@ -53,7 +52,6 @@ class App extends Component {
           uniqueKey: key,
           // response[key]
         });
-        console.log("this is the new state!", newState);
       }
 
       // set new foods state
@@ -67,7 +65,6 @@ class App extends Component {
   // function to remove item from board ---this will live on new pairs page
   removeFoods = (foodId) => {
     const dbRef = firebase.database().ref();
-
     dbRef.child(foodId).remove();
 
   }
@@ -76,9 +73,12 @@ class App extends Component {
  handleFireSave = (event) => {
 
   event.preventDefault();
-  this.collectHealthyInfo();
+  const junkAndHealthyData = {
+    junk: this.state.allOfTheJunk,
+    healthy: this.state.allOfTheHealthy,
+  };
   const dbRef = firebase.database().ref();
-  dbRef.update(this.state.allOfTheHealthy);
+  dbRef.push(junkAndHealthyData);
 
 };
 
@@ -118,7 +118,19 @@ class App extends Component {
       this.setState({
         // NOTE for modal: to access micronutrients later, just use this.state.junkFood.nf_[nameOfNutrient]
         junkFood: response.data.foods[0],
-        junkFoodSugar: response.data.foods[0].nf_sugars
+        junkFoodSugar: response.data.foods[0].nf_sugars,
+        allOfTheJunk: {
+          junkName: response.data.foods[0].food_name,
+          junkSugar: response.data.foods[0].nf_sugars,
+          junkFat: response.data.foods[0].nf_total_fat,
+          junkProtein: response.data.foods[0].nf_protein,
+          junkCarbs: response.data.foods[0].nf_total_carbohydrate,
+          junkCalories: response.data.foods[0].nf_calories,
+          junkServingSize: {
+            quantity: response.data.foods[0].serving_qty,
+            unit: response.data.foods[0].serving_unit,
+          }
+        }
       })
     }).then(() => {
       axios({
@@ -143,11 +155,9 @@ class App extends Component {
           'x-app-key': 'adf9b4e2b35bea41e8e10c775b249104',
         }
       }).then((results) => {
-        console.log(results);
         this.setState({
           healthyFood: results.data.common[Math.floor(Math.random() * results.data.common.length)]
         })
-        // console.log(this.state.healthyFood);
       }).then(() => {
         const sugar = this.getNutrientValue(269, this.state.healthyFood.full_nutrients);
         const fat = this.getNutrientValue(204, this.state.healthyFood.full_nutrients);
@@ -162,14 +172,18 @@ class App extends Component {
           healthyCarbs: carbs,
           healthyCalories: calories,
           allOfTheHealthy: {
+            healthyName: this.state.healthyFood.food_name,
             healthySugar: sugar,
             healthyFat: fat,
             healthyProtein: protein,
             healthyCarbs: carbs,
             healthyCalories: calories,
+            healthyServingSize: {
+              quantity: this.state.healthyFood.serving_qty,
+              unit: this.state.healthyFood.serving_unit,
+            },
           }
         })
-        // console.log("this is the object we want to push", this.state.allOfTheHealthy);
       })
 
     }).then(() => {
@@ -196,9 +210,6 @@ class App extends Component {
     });
   }
 
-  collectHealthyInfo = () => {
-    this.state.everythingHealthy.push(this.state.allOfTheHealthy)
-  }
 
   render() {
     return (
@@ -227,6 +238,7 @@ class App extends Component {
                 <li>Calories: {this.state.healthyCalories}</li>
                 <li>Protein: {this.state.healthyProtein}</li>
                 <li>Carbs: {this.state.healthyCarbs}</li>
+                <li>Serving Size: {this.state.healthyFood.serving_qty}  {this.state.healthyFood.serving_unit}</li>
               </ul>
             </div>
             <div>
@@ -237,6 +249,7 @@ class App extends Component {
                 <li>Calories: {this.state.junkFood.nf_calories}</li>
                 <li>Protein: {this.state.junkFood.nf_protein}</li>
                 <li>Carbs: {this.state.junkFood.nf_total_carbohydrate}</li>
+                <li>Serving size: {this.state.junkFood.serving_qty} {this.state.junkFood.serving_unit}</li>
               </ul>
             </div>
           </Modal>
@@ -251,10 +264,11 @@ class App extends Component {
             <h2>Fave pairs</h2>
             <ul>
               {this.state.fireFoods.map(foods => {
-                // console.log("this is foods" ,foods);
+                // const arrayOfKeys = Object.keys(foods);
                 return (
                   <li key={foods.uniqueKey}>
-                    <p>{foods.title}<span><button className="remove-button" onClick={() => this.removeFoods(foods.uniqueKey)}>Remove</button></span></p>
+                    <p>{foods.title.healthy.healthyName} has {foods.title.healthy.healthyCalories} calories and {foods.title.healthy.healthySugar} grams of sugar. Meanwhile, {foods.title.junk.junkName} has {foods.title.junk.junkCalories} calories and {foods.title.junk.junkSugar} grams of sugar.
+                    <span><button className="remove-button" onClick={() => this.removeFoods(foods.uniqueKey)}>Remove</button></span></p>
                   </li>
                 );
               })}
@@ -292,5 +306,4 @@ export default App;
   //     'content-type': 'application/x-www-form-urlencoded',
   //   }
   // }).then((response) => {
-  //   console.log(response);
   // })

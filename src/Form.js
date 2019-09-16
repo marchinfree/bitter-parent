@@ -1,27 +1,11 @@
 import React from 'react';
-import { throwStatement } from '@babel/types';
 
 
 class Form extends React.Component{
 
-    // constructor(){
-    //     super();
-    //     this.state = {
-    //         userInput: ''
-    //     }
-    // // }
-
-    // getUserInput = (e) =>{
-    //     this.setState({
-    //         userInput: e.target.value
-    //     })
-    // }
-
-
     handleSubmit = (event) =>{
         event.preventDefault();
         this.props.getFoods();
-        // this.openModalHandler();
     }
 
 
