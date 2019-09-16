@@ -245,7 +245,10 @@ class App extends Component {
           <Modal
             className="modal"
             show={this.state.isShowing}
-            close={this.closeModalHandler}>
+            close={this.closeModalHandler}
+            handleFireSave={this.handleFireSave}
+            allOfTheJunk={this.state.allOfTheJunk}
+            allOfTheHealthy={this.state.allOfTheHealthy}>
             <div>
               <p>{this.state.healthyFood.food_name} has {(this.state.junkFoodSugar - this.state.healthySugar)} fewer grams of sugar than {this.state.junkFood.food_name}</p>
             </div>
@@ -275,10 +278,10 @@ class App extends Component {
 
           {/* testing firebase ---THIS WILL BECOME THE SAVED PAIRS PAGE---HOW TO SAVE PAIRS? */}
 
-          <div className="board-button">
+          {/* <div className="board-button">
             <button type="button" className="add-button" onClick={this.handleFireSave}>Add to board</button>
 
-          </div>
+          </div> */}
           <div>
             <h2>Fave pairs</h2>
             <ul>
@@ -286,8 +289,24 @@ class App extends Component {
                 // const arrayOfKeys = Object.keys(foods);
                 return (
                   <li key={foods.uniqueKey}>
-                    <p>{foods.title.healthy.healthyName} has {foods.title.healthy.healthyCalories} calories and {foods.title.healthy.healthySugar} grams of sugar. Meanwhile, {foods.title.junk.junkName} has {foods.title.junk.junkCalories} calories and {foods.title.junk.junkSugar} grams of sugar.
-                    <span><button className="remove-button" onClick={() => this.removeFoods(foods.uniqueKey)}>Remove</button></span></p>
+                    <h2>{foods.title.junk.junkName} vs. {foods.title.healthy.healthyName}</h2>
+                    <ul className="healthyInfo">
+                      <li>Calories: {foods.title.healthy.healthyCalories}</li>
+                      <li>Serving Size: {foods.title.healthy.healthyServingSize.quantity} {foods.title.healthy.healthyServingSize.unit}</li>
+                      <li>Sugar: {foods.title.healthy.healthySugar}</li>
+                      <li>Protein: {foods.title.healthy.healthyProtein}</li>
+                      <li>Fat: {foods.title.healthy.healthyFat}</li>
+                      <li>Carbs: {foods.title.healthy.healthyCarbs}</li>
+                    </ul>
+                    <ul className="junkInfo">
+                      <li>Calories: {foods.title.junk.junkCalories}</li>
+                      <li>Serving Size: {foods.title.junk.junkServingSize.quantity} {foods.title.junk.junkServingSize.unit}</li>
+                      <li>Sugar: {foods.title.junk.junkSugar}</li>
+                      <li>Protein: {foods.title.junk.junkProtein}</li>
+                      <li>Fat: {foods.title.junk.junkFat}</li>
+                      <li>Carbs: {foods.title.junk.junkCarbs}</li>
+                    </ul>
+                    <span><button className="remove-button" onClick={() => this.removeFoods(foods.uniqueKey)}>Remove</button></span>
                   </li>
                 );
               })}

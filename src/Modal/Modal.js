@@ -20,7 +20,7 @@ const modal = (props) => {
                 </div>
                 <div className="modal-footer">
                     <button className="btn-cancel" onClick={props.close}>CLOSE</button>
-                    <button className="btn-continue">CONTINUE</button>
+                    <button className="add-button" type="button" onClick={props.handleFireSave}>Add to board</button>
                 </div>
             </div>
         </div>
