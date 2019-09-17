@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './partials/App.scss';
-import Form from './Form'
+import Home from './Home';
 import axios from 'axios';
 import Header from './Header';
 import Modal from './Modal';
@@ -233,20 +233,19 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <nav>
-          <Link exact to="/MySavedFoods">Saved Combos</Link>
-          <Link to="/">Home</Link>
-        </nav>
+        
         <Route path="/MySavedFoods"
               render={() =>{
                 return <SavedPairs removeFoods={this.removeFoods} fireFoods={this.state.fireFoods} />
                 } 
               }
             />
+        <Route exact path="/" render={() => {
+          return <Home allData={this.state} getFoods={this.getFoods} handleChange={this.handleChange}/>
+        }}
+        />  
         <div className="App">
-          <Header />
-          <Form handleChange={this.handleChange} getFoods={this.getFoods} />
-  
+          
           <div>
             {this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null}
             {/* <button className="open-modal-btn" onClick={this.openModalHandler}>Open Modal</button> */}
