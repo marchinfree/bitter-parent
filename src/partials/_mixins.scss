@@ -1,0 +1,15 @@
+@mixin ipad {
+    @media (max-width: 768px) {@content}; 
+}
+
+@mixin iphonePlus {
+    @media (max-width: 414px) {@content}; 
+}
+
+@mixin iphone678 {
+    @media (max-width: 375px) {@content}; 
+}
+
+@mixin iphone5 {
+    @media (max-width: 320px) {@content}; 
+}
