@@ -1,0 +1,27 @@
+.modalBackInfo{
+    display: flex;
+    justify-content: space-between;
+    ul{
+        margin: 0;
+        h2{
+        color: $darkGreen;
+        padding: 10px 0;
+        }
+    }
+}
+
+.healthyModalInfo{
+    width: 50%;
+    
+}
+
+.junkModalInfo{
+    width: 50%;
+}
+
+
+.modalNamePop{
+    color: orange;
+}
+
+

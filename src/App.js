@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import './App.css';
+import './partials/App.scss';
 import Form from './Form'
 import axios from 'axios';
-import Modal from './Modal/Modal';
+import Header from './Header';
+import Modal from './Modal';
+import ModalDisplay from './ModalDisplay';
 import firebase from './Firebase.js';
-
+import SavedPairs from './SavedPairs';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 
 // TO DO on Sunday, Sept. 15,
 // Make component and modal to display healthy and junk food nutrients ---DONE---
@@ -30,6 +33,7 @@ class App extends Component {
       isShowing: false,
       fireFoods: [],
       everythingHealthy: [],
+      buttonClicked: false,
     }
   }
 
@@ -69,9 +73,8 @@ class App extends Component {
 
   }
 
- // this adds items to the community board / firebase ----Need to put this function on modal button
+ // this adds items to the community board / firebase 
  handleFireSave = (event) => {
-
   event.preventDefault();
   const junkAndHealthyData = {
     junk: this.state.allOfTheJunk,
@@ -79,14 +82,12 @@ class App extends Component {
   };
   const dbRef = firebase.database().ref();
   dbRef.push(junkAndHealthyData);
-
-
+  this.setState({
+    buttonClicked: true,
+    
+  })
 };
 
-  // getInfoFromForm = (event) =>{
-  //   event.preventDefault();
-  //   this.getFoods();
-  // }
 
   getNutrientValue = (nutNum, array) => {
     const nutrient = array.filter(sugarObject => {
@@ -112,21 +113,21 @@ class App extends Component {
         "use_branded_foods": false,
       },
       headers: {
-        'x-app-id': '4424dc15',
-        'x-app-key': 'adf9b4e2b35bea41e8e10c775b249104',
+        'x-app-id': '5bcbc45a',
+        'x-app-key': '8e9e3042c76246ec8cd2e04009e3b66e',
       },
     }).then((response) => {
       this.setState({
         // NOTE for modal: to access micronutrients later, just use this.state.junkFood.nf_[nameOfNutrient]
         junkFood: response.data.foods[0],
-        junkFoodSugar: response.data.foods[0].nf_sugars,
+        junkFoodSugar: (response.data.foods[0].nf_sugars).toFixed(2),
         allOfTheJunk: {
           junkName: response.data.foods[0].food_name,
-          junkSugar: response.data.foods[0].nf_sugars,
-          junkFat: response.data.foods[0].nf_total_fat,
-          junkProtein: response.data.foods[0].nf_protein,
-          junkCarbs: response.data.foods[0].nf_total_carbohydrate,
-          junkCalories: response.data.foods[0].nf_calories,
+          junkSugar: (response.data.foods[0].nf_sugars).toFixed(2),
+          junkFat: (response.data.foods[0].nf_total_fat).toFixed(2),
+          junkProtein: (response.data.foods[0].nf_protein).toFixed(2),
+          junkCarbs: (response.data.foods[0].nf_total_carbohydrate).toFixed(2),
+          junkCalories: (response.data.foods[0].nf_calories).toFixed(2),
           junkServingSize: {
             quantity: response.data.foods[0].serving_qty,
             unit: response.data.foods[0].serving_unit,
@@ -152,19 +153,19 @@ class App extends Component {
           }
         },
         headers: {
-          'x-app-id': '4424dc15',
-          'x-app-key': 'adf9b4e2b35bea41e8e10c775b249104',
+          'x-app-id': '5bcbc45a',
+          'x-app-key': '8e9e3042c76246ec8cd2e04009e3b66e',
         }
       }).then((results) => {
         this.setState({
           healthyFood: results.data.common[Math.floor(Math.random() * results.data.common.length)]
         })
       }).then(() => {
-        const sugar = this.getNutrientValue(269, this.state.healthyFood.full_nutrients);
-        const fat = this.getNutrientValue(204, this.state.healthyFood.full_nutrients);
-        const protein = this.getNutrientValue(203, this.state.healthyFood.full_nutrients);
-        const carbs = this.getNutrientValue(205, this.state.healthyFood.full_nutrients);
-        const calories = this.getNutrientValue(208, this.state.healthyFood.full_nutrients);
+        const sugar = this.getNutrientValue(269, this.state.healthyFood.full_nutrients).toFixed(2);
+        const fat = this.getNutrientValue(204, this.state.healthyFood.full_nutrients).toFixed(2);
+        const protein = this.getNutrientValue(203, this.state.healthyFood.full_nutrients).toFixed(2);
+        const carbs = this.getNutrientValue(205, this.state.healthyFood.full_nutrients).toFixed(2);
+        const calories = this.getNutrientValue(208, this.state.healthyFood.full_nutrients).toFixed(2);
 
         this.setState({
           healthySugar: sugar,
@@ -189,16 +190,15 @@ class App extends Component {
 
     }).then(() => {
       this.setState({
-        isShowing: true
+        isShowing: true,
+        buttonClicked: false,
       });
 
     }).then(() => {
       this.setState({
         savedPair: this.state.junkFoodSugar,
-        savedPairName: (this.state.junkFood.food_name + "/" + this.state.healthyFood.food_name)
-
+        savedPairName: (this.state.junkFood.food_name + "/" + this.state.healthyFood.food_name),
       })
-      console.log(this.state.healthyFood)
     })
   
 
@@ -232,71 +232,50 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-
-        <Form handleChange={this.handleChange} getFoods={this.getFoods} />
-
-        <div>
-          {this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null}
-
-          {/* <button className="open-modal-btn" onClick={this.openModalHandler}>Open Modal</button> */}
-
-{/* ALL RESULTS NOW LIVE IN THE MODAL, NEED TO FLIP CARDS */}
-          <Modal
-            className="modal"
-            show={this.state.isShowing}
-            close={this.closeModalHandler}>
-            <div>
-              <p>{this.state.healthyFood.food_name} has {(this.state.junkFoodSugar - this.state.healthySugar)} fewer grams of sugar than {this.state.junkFood.food_name}</p>
-            </div>
-            <div>
-              <h2>{this.state.healthyFood.food_name}</h2>
-              <ul>
-                <li>Sugar: {this.state.healthySugar}</li>
-                <li>Fat: {this.state.healthyFat}</li>
-                <li>Calories: {this.state.healthyCalories}</li>
-                <li>Protein: {this.state.healthyProtein}</li>
-                <li>Carbs: {this.state.healthyCarbs}</li>
-                <li>Serving Size: {this.state.healthyFood.serving_qty}  {this.state.healthyFood.serving_unit}</li>
-              </ul>
-            </div>
-            <div>
-              <ul>
-                <h2>Junk food nutrients</h2>
-                <li>Sugar: {this.state.junkFoodSugar}</li>
-                <li>Fat: {this.state.junkFood.nf_total_fat}</li>
-                <li>Calories: {this.state.junkFood.nf_calories}</li>
-                <li>Protein: {this.state.junkFood.nf_protein}</li>
-                <li>Carbs: {this.state.junkFood.nf_total_carbohydrate}</li>
-                <li>Serving size: {this.state.junkFood.serving_qty} {this.state.junkFood.serving_unit}</li>
-              </ul>
-            </div>
-          </Modal>
-
-          {/* testing firebase ---THIS WILL BECOME THE SAVED PAIRS PAGE---HOW TO SAVE PAIRS? */}
-
-          <div className="board-button">
-            <button type="button" className="add-button" onClick={this.handleFireSave}>Add to board</button>
-
-          </div>
+      <Router>
+        <nav>
+          <Link exact to="/MySavedFoods">Saved Combos</Link>
+          <Link to="/">Home</Link>
+        </nav>
+        <Route path="/MySavedFoods"
+              render={() =>{
+                return <SavedPairs removeFoods={this.removeFoods} fireFoods={this.state.fireFoods} />
+                } 
+              }
+            />
+        <div className="App">
+          <Header />
+          <Form handleChange={this.handleChange} getFoods={this.getFoods} />
+  
           <div>
-            <h2>Fave pairs</h2>
-            <ul>
-              {this.state.fireFoods.map(foods => {
-                // const arrayOfKeys = Object.keys(foods);
-                return (
-                  <li key={foods.uniqueKey}>
-                    <p>{foods.title.healthy.healthyName} has {foods.title.healthy.healthyCalories} calories and {foods.title.healthy.healthySugar} grams of sugar. Meanwhile, {foods.title.junk.junkName} has {foods.title.junk.junkCalories} calories and {foods.title.junk.junkSugar} grams of sugar.
-                    <span><button className="remove-button" onClick={() => this.removeFoods(foods.uniqueKey)}>Remove</button></span></p>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+            {this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null}
+            {/* <button className="open-modal-btn" onClick={this.openModalHandler}>Open Modal</button> */}
+            <Modal
+              className="modal"
+              show={this.state.isShowing}
+              close={this.closeModalHandler}
+              handleFireSave={this.handleFireSave}
+              allOfTheJunk={this.state.allOfTheJunk}
+              allOfTheHealthy={this.state.allOfTheHealthy}
+              buttonClicked={this.state.buttonClicked}>
+              <ModalDisplay 
+                healthyFood={this.state.healthyFood}
+                healthySugar={this.state.healthySugar}
+                healthyFat={this.state.healthyFat}
+                healthyCalories={this.state.healthyCalories}
+                healthyCarbs={this.state.healthyCarbs}
+                junkFood={this.state.junkFood}
+                junkFoodSugar={this.state.junkFoodSugar}
+                junkFoodFat={this.state.junkFoodFat}
+                junkFoodCalories={this.state.junkFoodCalories}
+                junkFoodCarbs={this.state.junkFoodCarbs}
 
+              />
+            </Modal>
+            </div>
         </div>
-
-      </div>
+       
+      </Router>
     );
   }
 }
