@@ -15,10 +15,10 @@ const modal = (props) => {
                     <span className="close-modal-btn" onClick={props.close}>×</span>
                 </div>
                 <div className="modal-body">
-                    <p>{props.children}</p>
+                    <div>{props.children}</div>
                 </div>
                 <div className="modal-footer">
-                    <button className="add-button" type="button" onClick={props.handleFireSave} disabled={props.buttonClicked === true ? true : false}><i class="fas fa-heart"></i></button>
+                    <button className="add-button" type="button" onClick={props.handleFireSave} disabled={props.allData.buttonClicked === true ? true : false}><i className="fas fa-heart"></i></button>
                 </div>
             </div>
         </div>

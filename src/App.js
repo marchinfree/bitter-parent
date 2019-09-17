@@ -2,20 +2,9 @@ import React, { Component } from 'react';
 import './partials/App.scss';
 import Home from './Home';
 import axios from 'axios';
-import Header from './Header';
-import Modal from './Modal';
-import ModalDisplay from './ModalDisplay';
 import firebase from './Firebase.js';
 import SavedPairs from './SavedPairs';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-
-// TO DO on Sunday, Sept. 15,
-// Make component and modal to display healthy and junk food nutrients ---DONE---
-// Finish error handling for form
-// Create header component and JSX elements to be rendered
-// Create saved pairs component that will hold user's saved combinations of healthy food + junk food
-// Set up firebase storing + deleting -----DONE ------
-// Set up routing to display comparison modal + saved pairs component 
 
 class App extends Component {
   constructor() {
@@ -54,7 +43,6 @@ class App extends Component {
         newState.push({
           title: response[key],
           uniqueKey: key,
-          // response[key]
         });
       }
 
@@ -84,7 +72,6 @@ class App extends Component {
     dbRef.push(junkAndHealthyData);
     this.setState({
       buttonClicked: true,
-
     })
   };
 
@@ -113,12 +100,11 @@ class App extends Component {
         "use_branded_foods": false,
       },
       headers: {
-        'x-app-id': '5bcbc45a',
-        'x-app-key': '8e9e3042c76246ec8cd2e04009e3b66e',
+        'x-app-id': '9e2a04b3',
+        'x-app-key': '58f30814d5c13971f51720cf37a6b7f7',
       },
     }).then((response) => {
       this.setState({
-        // NOTE for modal: to access micronutrients later, just use this.state.junkFood.nf_[nameOfNutrient]
         junkFood: response.data.foods[0],
         junkFoodSugar: (response.data.foods[0].nf_sugars).toFixed(2),
         allOfTheJunk: {
@@ -153,8 +139,8 @@ class App extends Component {
           }
         },
         headers: {
-          'x-app-id': '5bcbc45a',
-          'x-app-key': '8e9e3042c76246ec8cd2e04009e3b66e',
+          'x-app-id': '9e2a04b3',
+          'x-app-key': '58f30814d5c13971f51720cf37a6b7f7',
         }
       }).then((results) => {
         this.setState({
@@ -207,16 +193,6 @@ class App extends Component {
       })
   }
 
-  // function to save user pairs
-  // saveUserPairs = () => {
-  //   const foodPairing = [];
-  //   foodPairing.push(this.state.junkFoodSugar, this.state.healthySugar)
-  //   this.setState({
-  //     savedPair: foodPairing
-
-  //   })
-
-  // DO WE NEED THESE NOW?
   openModalHandler = () => {
     this.setState({
       isShowing: true
@@ -233,6 +209,10 @@ class App extends Component {
   render() {
     return (
       <Router>
+        <nav className="wrapper">
+          <Link to="/">Home</Link>
+          <Link to="MySavedFoods">My saved foods</Link>
+        </nav>
 
 
         <Route path="/MySavedFoods"
@@ -242,42 +222,13 @@ class App extends Component {
           }
         />
         <Route exact path="/" render={() => {
-          return <Home allData={this.state} getFoods={this.getFoods} handleChange={this.handleChange} handleFireSave={this.handleFireSave} closeModalHandler={this.closeModalHandler} openModalHandler={this.openModalHandler}/>
+          return <Home allData={this.state} getFoods={this.getFoods} handleChange={this.handleChange} handleFireSave={this.handleFireSave} closeModalHandler={this.closeModalHandler} openModalHandler={this.openModalHandler} buttonClicked={this.state.buttonClicked} />
         }}
         />
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="MySavedFoods">My saved foods</Link>
-        </nav>
+        
 
         <div className="App">
-          {/* <Home /> */}
-
-          {/* <div>
-            {this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null}
-            <Modal
-              className="modal"
-              show={this.state.isShowing}
-              close={this.closeModalHandler}
-              handleFireSave={this.handleFireSave}
-              allOfTheJunk={this.state.allOfTheJunk}
-              allOfTheHealthy={this.state.allOfTheHealthy}
-              buttonClicked={this.state.buttonClicked}>
-              <ModalDisplay
-                healthyFood={this.state.healthyFood}
-                healthySugar={this.state.healthySugar}
-                healthyFat={this.state.healthyFat}
-                healthyCalories={this.state.healthyCalories}
-                healthyCarbs={this.state.healthyCarbs}
-                junkFood={this.state.junkFood}
-                junkFoodSugar={this.state.junkFoodSugar}
-                junkFoodFat={this.state.junkFoodFat}
-                junkFoodCalories={this.state.junkFoodCalories}
-                junkFoodCarbs={this.state.junkFoodCarbs}
-
-              />
-            </Modal>
-          </div> */}
+          
         </div>
 
       </Router>
@@ -286,27 +237,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-
-//THIS WAS OUR 'GET' AXIOS CALL:
-
-
-// working axios call
-  // axios({
-  //   url: 'https://trackapi.nutritionix.com/v2/search/instant',
-  //   dataResponse: 'JSON',
-  //   method: 'GET',
-  //   params: {
-  //     'detailed': true,
-  //     'query': 'pizza',
-  //     'branded': false,
-  //     'self': false, 
-  //   },
-  //   headers: {
-  //     'x-app-id': '4424dc15',
-  //     'x-app-key': 'adf9b4e2b35bea41e8e10c775b249104',
-  //     'content-type': 'application/x-www-form-urlencoded',
-  //   }
-  // }).then((response) => {
-  // })
