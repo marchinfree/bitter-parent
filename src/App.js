@@ -4,6 +4,7 @@ import Home from './Home';
 import axios from 'axios';
 import firebase from './Firebase.js';
 import SavedPairs from './SavedPairs';
+import Footer from './Footer';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 class App extends Component {
@@ -230,7 +231,7 @@ class App extends Component {
         <div className="App">
           
         </div>
-
+        <Footer />
       </Router>
     );
   }
