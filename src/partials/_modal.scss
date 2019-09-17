@@ -1,5 +1,8 @@
 .modalParent{
-    position: relative;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    right: 0;
 }
 
 .modal-wrapper {
@@ -11,9 +14,12 @@
     width: 60%;
     animation: scale-in-top 1s forwards;
     position: absolute;
-    top: -120px;
+    top: 0;
     left: 0;
     right: 0;
+        ul{
+            background: $blue;
+        }
 }
 
 // animation courtesy of Animista.net
@@ -52,15 +58,14 @@
 }
 
 .modal-header {
-    background: #263238;
+    background: $lightGreen;
     line-height: 40px;
     padding: 10px 20px;
     text-align: center;
 }
 
 .modal-header h3 {
-    color: white;
-    // float: left;
+    color: $darkGreen;
     margin: 0;
     padding: 0px;
 }
@@ -71,7 +76,7 @@
 }
 
 .modal-footer {
-    background: #263238;
+    background: $lightGreen;
     height: 35px;
     padding: 15px;
     text-align: center;
@@ -91,27 +96,12 @@
     color: black;
 }
 
-.btn-cancel, .btn-continue {
-    background: coral;
-    border: none;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    outline: none;
-    padding: 10px;
-}
-
-
-.btn-continue {
-    background-color: #1b5e20;
-    float: right;
-}
-
 .back-drop {
-    background-color: rgba(48, 49, 48, 0.42);
+    // background-color: rgba(48, 49, 48, 0.42);
     height: 100vh;
     position: absolute;
     top: 0;
+    bottom: 0;
     transition: all 1.3s;
     width: 100%;
 }
@@ -126,7 +116,7 @@ i.fa-heart{
     font-size: 2rem;
     padding: 10px;
     border-radius: 50%;
-   
+    color: $lightGreen;
 }
 
 i.fa-heart:active{
