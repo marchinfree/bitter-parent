@@ -1,19 +1,28 @@
 
 header{
     text-align: center;
-    padding-top: 100px;
+    padding-top: 5%;
+        h1{
+            color: $darkGreen;
+            font-size: 12rem;
+            margin: 0;
+        }
+        div{
+            background: yellow;
+                h2{
+                    color: $darkGreen;
+                    font-family: $headingFont;
+                    font-size: 3.5rem;
+                    margin: 0 0 50px;
+                }
+        
+                p{
+                    font-family: $baseFont;
+                    font-size: 2.5rem;
+                    display: inline;
+                }
+        }
 }
 
 
-h1{
-    color: $darkGreen;
-    font-size: 12rem;
-    margin: 0;
-}
-
-h2{
-    color: $darkGreen;
-    font-size: 3.5rem;
-    margin: 0;
-}
 

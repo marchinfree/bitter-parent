@@ -12,7 +12,7 @@ class Form extends React.Component{
             <div className="wrapper">
                 <form onSubmit={this.handleSubmit}>
                     <input onChange={this.props.handleChange} type="text"></input>
-                    <button onClick={this.props.getFoods}>Unsweeten my child!</button>
+                    <button onClick={this.props.getFoods}>Find me something less sweet</button>
                 </form>
             </div>
         )
