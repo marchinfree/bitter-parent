@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import './partials/App.scss';
 import Form from './Form'
 import axios from 'axios';
 import Header from './Header';
@@ -84,6 +84,7 @@ class App extends Component {
   dbRef.push(junkAndHealthyData);
   this.setState({
     buttonClicked: true,
+    
   })
 };
 
@@ -119,14 +120,14 @@ class App extends Component {
       this.setState({
         // NOTE for modal: to access micronutrients later, just use this.state.junkFood.nf_[nameOfNutrient]
         junkFood: response.data.foods[0],
-        junkFoodSugar: response.data.foods[0].nf_sugars,
+        junkFoodSugar: (response.data.foods[0].nf_sugars).toFixed(2),
         allOfTheJunk: {
           junkName: response.data.foods[0].food_name,
-          junkSugar: response.data.foods[0].nf_sugars,
-          junkFat: response.data.foods[0].nf_total_fat,
-          junkProtein: response.data.foods[0].nf_protein,
-          junkCarbs: response.data.foods[0].nf_total_carbohydrate,
-          junkCalories: response.data.foods[0].nf_calories,
+          junkSugar: (response.data.foods[0].nf_sugars).toFixed(2),
+          junkFat: (response.data.foods[0].nf_total_fat).toFixed(2),
+          junkProtein: (response.data.foods[0].nf_protein).toFixed(2),
+          junkCarbs: (response.data.foods[0].nf_total_carbohydrate).toFixed(2),
+          junkCalories: (response.data.foods[0].nf_calories).toFixed(2),
           junkServingSize: {
             quantity: response.data.foods[0].serving_qty,
             unit: response.data.foods[0].serving_unit,
@@ -160,11 +161,11 @@ class App extends Component {
           healthyFood: results.data.common[Math.floor(Math.random() * results.data.common.length)]
         })
       }).then(() => {
-        const sugar = this.getNutrientValue(269, this.state.healthyFood.full_nutrients);
-        const fat = this.getNutrientValue(204, this.state.healthyFood.full_nutrients);
-        const protein = this.getNutrientValue(203, this.state.healthyFood.full_nutrients);
-        const carbs = this.getNutrientValue(205, this.state.healthyFood.full_nutrients);
-        const calories = this.getNutrientValue(208, this.state.healthyFood.full_nutrients);
+        const sugar = this.getNutrientValue(269, this.state.healthyFood.full_nutrients).toFixed(2);
+        const fat = this.getNutrientValue(204, this.state.healthyFood.full_nutrients).toFixed(2);
+        const protein = this.getNutrientValue(203, this.state.healthyFood.full_nutrients).toFixed(2);
+        const carbs = this.getNutrientValue(205, this.state.healthyFood.full_nutrients).toFixed(2);
+        const calories = this.getNutrientValue(208, this.state.healthyFood.full_nutrients).toFixed(2);
 
         this.setState({
           healthySugar: sugar,
@@ -189,7 +190,8 @@ class App extends Component {
 
     }).then(() => {
       this.setState({
-        isShowing: true
+        isShowing: true,
+        buttonClicked: false,
       });
 
     }).then(() => {

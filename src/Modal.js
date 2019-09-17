@@ -1,25 +1,24 @@
 import React from 'react';
-import './Modal.css';
 
 
 const modal = (props) => {
     return (
-        <div>
+        <div className="modalParent">
             <div className="modal-wrapper"
                 style={{
+                    display: props.show ? 'block' : 'none',
                     transform: props.show ? 'translateY(0vh)' : 'translateY(-100vh)',
                     opacity: props.show ? '1' : '0'
                 }}>
                 <div className="modal-header">
-                    <h3>Modal Header</h3>
+                    <h3>Nutrient breakdown</h3>
                     <span className="close-modal-btn" onClick={props.close}>×</span>
                 </div>
                 <div className="modal-body">
                     <p>{props.children}</p>
                 </div>
                 <div className="modal-footer">
-                    <button className="btn-cancel" onClick={props.close}>CLOSE</button>
-                    <button className="add-button" type="button" onClick={props.handleFireSave} disabled={props.buttonClicked===true ? true : false}>Add to board</button>
+                    <button className="add-button" type="button" onClick={props.handleFireSave} disabled={props.buttonClicked === true ? true : false}><i class="fas fa-heart"></i></button>
                 </div>
             </div>
         </div>

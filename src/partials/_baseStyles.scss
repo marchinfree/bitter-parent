@@ -1,0 +1,30 @@
+html{
+    font-size: 62.5%;
+    background: $blue;
+}
+
+.wrapper{
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+body{
+    font-family: $baseFont;
+    font-size: 2rem;
+    
+}
+
+a{
+    text-decoration: none;
+    color: $darkGreen;
+    font-size: 2rem;
+}
+
+a:visited{
+    color: black;
+}
+
+ul{
+    list-style: none;
+}
