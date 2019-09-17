@@ -1,39 +1,39 @@
 import React from 'react';
 
-class ModalDisplay extends React.Component{
-    render(){
-        return(
-            <div>
-                <div className="modalFrontInfo">
-              <p>Why would you eat <span className="modalNamePop">{this.props.junkFood.food_name}</span> when <span className="modalNamePop">{this.props.healthyFood.food_name}</span> has {(this.props.junkFoodSugar - this.props.healthySugar).toFixed(2)} fewer grams of sugar? You wouldn't! Because life is meaningless.</p>
-                </div>
-                <div className="modalBackInfo">
-                  <div className="healthyModalInfo">
-                    <ul>
-                      <h2>{this.props.healthyFood.food_name}</h2>
-                      <li>Sugar: {this.props.healthySugar}</li>
-                      <li>Fat: {this.props.healthyFat}</li>
-                      <li>Calories: {this.props.healthyCalories}</li>
-                      <li>Protein: {this.props.healthyProtein}</li>
-                      <li>Carbs: {this.props.healthyCarbs}</li>
-                      <li>Serving Size: {this.props.healthyFood.serving_qty}  {this.props.healthyFood.serving_unit}</li>
-                    </ul>
-                  </div>
-                  <div className="junkModalInfo">
-                    <ul>
-                      <h2>{this.props.junkFood.food_name}</h2>
-                      <li>Sugar: {this.props.junkFoodSugar}</li>
-                      <li>Fat: {this.props.junkFood.nf_total_fat}</li>
-                      <li>Calories: {this.props.junkFood.nf_calories}</li>
-                      <li>Protein: {this.props.junkFood.nf_protein}</li>
-                      <li>Carbs: {this.props.junkFood.nf_total_carbohydrate}</li>
-                      <li>Serving size: {this.props.junkFood.serving_qty} {this.props.junkFood.serving_unit}</li>
-                    </ul>
-                  </div>
-                </div>
-            </div>
-        )
-    }
+const ModalDisplay = (props) => {
+
+  return (
+    <div>
+      <div className="modalFrontInfo">
+        <p>Why would you eat <span className="modalNamePop">{props.allData.junkFood.food_name}</span> when <span className="modalNamePop">{props.allData.healthyFood.food_name}</span> has {(props.allData.junkFoodSugar - props.allData.healthySugar).toFixed(2)} fewer grams of sugar? You wouldn't! Because life is meaningless.</p>
+      </div>
+      <div className="modalBackInfo">
+        <div className="healthyModalInfo">
+          <ul>
+            <h2>{props.allData.healthyFood.food_name}</h2>
+            <li>Sugar: {props.allData.healthySugar}</li>
+            <li>Fat: {props.allData.healthyFat}</li>
+            <li>Calories: {props.allData.healthyCalories}</li>
+            <li>Protein: {props.allData.healthyProtein}</li>
+            <li>Carbs: {props.allData.healthyCarbs}</li>
+            <li>Serving Size: {props.allData.healthyFood.serving_qty}  {props.allData.healthyFood.serving_unit}</li>
+          </ul>
+        </div>
+        <div className="junkModalInfo">
+          <ul>
+            <h2>{props.allData.junkFood.food_name}</h2>
+            <li>Sugar: {props.allData.junkFoodSugar}</li>
+            <li>Fat: {props.allData.junkFood.nf_total_fat}</li>
+            <li>Calories: {props.allData.junkFood.nf_calories}</li>
+            <li>Protein: {props.allData.junkFood.nf_protein}</li>
+            <li>Carbs: {props.allData.junkFood.nf_total_carbohydrate}</li>
+            <li>Serving size: {props.allData.junkFood.serving_qty} {props.allData.junkFood.serving_unit}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  )
 }
+
 
 export default ModalDisplay;
