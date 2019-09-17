@@ -7,7 +7,7 @@ import Modal from './Modal';
 import ModalDisplay from './ModalDisplay';
 import firebase from './Firebase.js';
 import SavedPairs from './SavedPairs';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 // TO DO on Sunday, Sept. 15,
 // Make component and modal to display healthy and junk food nutrients ---DONE---
@@ -73,20 +73,20 @@ class App extends Component {
 
   }
 
- // this adds items to the community board / firebase 
- handleFireSave = (event) => {
-  event.preventDefault();
-  const junkAndHealthyData = {
-    junk: this.state.allOfTheJunk,
-    healthy: this.state.allOfTheHealthy,
+  // this adds items to the community board / firebase 
+  handleFireSave = (event) => {
+    event.preventDefault();
+    const junkAndHealthyData = {
+      junk: this.state.allOfTheJunk,
+      healthy: this.state.allOfTheHealthy,
+    };
+    const dbRef = firebase.database().ref();
+    dbRef.push(junkAndHealthyData);
+    this.setState({
+      buttonClicked: true,
+
+    })
   };
-  const dbRef = firebase.database().ref();
-  dbRef.push(junkAndHealthyData);
-  this.setState({
-    buttonClicked: true,
-    
-  })
-};
 
 
   getNutrientValue = (nutNum, array) => {
@@ -200,7 +200,7 @@ class App extends Component {
         savedPairName: (this.state.junkFood.food_name + "/" + this.state.healthyFood.food_name),
       })
     })
-  
+
 
       .catch(error => {
         alert(`we broke it!`)
@@ -233,19 +233,26 @@ class App extends Component {
   render() {
     return (
       <Router>
-        
+
+
         <Route path="/MySavedFoods"
-              render={() =>{
-                return <SavedPairs removeFoods={this.removeFoods} fireFoods={this.state.fireFoods} />
-                } 
-              }
-            />
+          render={() => {
+            return <SavedPairs removeFoods={this.removeFoods} fireFoods={this.state.fireFoods} />
+          }
+          }
+        />
         <Route exact path="/" render={() => {
-          return <Home allData={this.state} getFoods={this.getFoods} handleChange={this.handleChange}/>
+          return <Home allData={this.state} getFoods={this.getFoods} handleChange={this.handleChange} />
         }}
-        />  
+        />
+        <nav>
+          <Link to="/">Home</Link>
+          <Link to="MySavedFoods">My saved foods</Link>
+        </nav>
+
         <div className="App">
-          
+          {/* <Home /> */}
+
           <div>
             {this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null}
             {/* <button className="open-modal-btn" onClick={this.openModalHandler}>Open Modal</button> */}
@@ -257,7 +264,7 @@ class App extends Component {
               allOfTheJunk={this.state.allOfTheJunk}
               allOfTheHealthy={this.state.allOfTheHealthy}
               buttonClicked={this.state.buttonClicked}>
-              <ModalDisplay 
+              <ModalDisplay
                 healthyFood={this.state.healthyFood}
                 healthySugar={this.state.healthySugar}
                 healthyFat={this.state.healthyFat}
@@ -271,9 +278,9 @@ class App extends Component {
 
               />
             </Modal>
-            </div>
+          </div>
         </div>
-       
+
       </Router>
     );
   }
