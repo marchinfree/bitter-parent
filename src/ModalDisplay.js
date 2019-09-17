@@ -10,7 +10,7 @@ const ModalDisplay = (props) => {
       <div className="modalBackInfo">
         <div className="healthyModalInfo">
           <ul>
-            <h2>{props.allData.healthyFood.food_name}</h2>
+            <h2>{props.allData.healthyFood.food_name} </h2>
             <li>Sugar: {props.allData.healthySugar}</li>
             <li>Fat: {props.allData.healthyFat}</li>
             <li>Calories: {props.allData.healthyCalories}</li>
