@@ -242,7 +242,7 @@ class App extends Component {
           }
         />
         <Route exact path="/" render={() => {
-          return <Home allData={this.state} getFoods={this.getFoods} handleChange={this.handleChange} />
+          return <Home allData={this.state} getFoods={this.getFoods} handleChange={this.handleChange} handleFireSave={this.handleFireSave} closeModalHandler={this.closeModalHandler} openModalHandler={this.openModalHandler}/>
         }}
         />
         <nav>
@@ -253,9 +253,8 @@ class App extends Component {
         <div className="App">
           {/* <Home /> */}
 
-          <div>
+          {/* <div>
             {this.state.isShowing ? <div onClick={this.closeModalHandler} className="back-drop"></div> : null}
-            {/* <button className="open-modal-btn" onClick={this.openModalHandler}>Open Modal</button> */}
             <Modal
               className="modal"
               show={this.state.isShowing}
@@ -278,7 +277,7 @@ class App extends Component {
 
               />
             </Modal>
-          </div>
+          </div> */}
         </div>
 
       </Router>
