@@ -17,7 +17,7 @@ const modal = (props) => {
                     <div>{props.children}</div>
                 </div>
                 <div className="modal-footer">
-                    <button className="add-button" type="button" onClick={props.handleFireSave} disabled={props.allData.buttonClicked === true ? true : false}><i className="fas fa-heart"></i></button>
+                    <button className="add-button" type="button" onClick={props.handleFireSave} disabled={props.allData.buttonClicked === true ? true : false}><i className="fas fa-heart" aria-label="Click to save this search result."></i></button>
                 </div>
             </div>
         </div>

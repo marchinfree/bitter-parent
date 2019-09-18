@@ -20,6 +20,9 @@ form{
                 height: 55px;
             }
         }
+        button:focus{
+            border: 2px solid $darkGreen;
+        }
     @include ipad{
         margin-bottom: 275px;
     }
