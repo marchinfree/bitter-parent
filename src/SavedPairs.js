@@ -3,7 +3,7 @@ import React from 'react';
 class SavedPairs extends React.Component{
     render(){
         return(
-            <div className="wrapper">
+            <div className="wrapper savedPairsPageWrapper">
                 <h2 className="savedPairs">Pair-adise City</h2>
                 <ul className="savedPairsWrapper">
                 {this.props.fireFoods.map(foods => {

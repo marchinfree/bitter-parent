@@ -3,12 +3,28 @@ form{
     margin-top: 50px;
     display: flex;
     justify-content: center;
+    margin-bottom: 125px;
         input{
             padding: 5px;
+            @include iphonePlus{
+                width: 75%;
+                margin: 0 auto;
+            }
         }
         button{
             color: $darkGreen;
             background: $lightGreen;
+            @include iphonePlus{
+                width: 75%;
+                margin: 15px auto 0;
+                height: 55px;
+            }
         }
-        
+    @include ipad{
+        margin-bottom: 275px;
+    }
+    @include iphonePlus{
+        flex-direction: column;
+        margin-bottom: 60px;
+    }
 }

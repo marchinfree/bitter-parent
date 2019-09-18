@@ -6,20 +6,36 @@ header{
             color: $darkGreen;
             font-size: 12rem;
             margin: 0;
+            @include iphonePlus{
+                font-size: 8rem;
+                line-height: 7.5rem;
+            }
         }
         div{
-            background: yellow;
                 h2{
+                    background: $blue;
                     color: $darkGreen;
                     font-family: $headingFont;
                     font-size: 3.5rem;
                     margin: 0 0 50px;
+                    display: inline-block;
+                    @include iphonePlus{
+                        font-size: 3rem;
+                        margin-top: 15px;
+                    }
                 }
         
                 p{
                     font-family: $baseFont;
                     font-size: 2.5rem;
                     display: inline;
+                    background: $blue;
+                    @include iphonePlus{
+                        font-size: 2.25rem;
+                    }
+                    @include iphone5{
+                        font-size: 1.9rem;
+                    }
                 }
         }
 }
