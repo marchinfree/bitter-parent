@@ -35,6 +35,9 @@ nav{
         a:visited{
             color: black;
         }
+    @include iphonePlus{
+        padding-top: 30px;
+    }
 }
 
 ul{

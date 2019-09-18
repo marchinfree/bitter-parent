@@ -3,15 +3,25 @@
     justify-content: space-between;
     ul{
         margin: 0;
+        padding: 0;
         h2{
         color: $darkGreen;
         padding: 10px 0;
         }
     }
+    @include iphonePlus{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 .healthyModalInfo{
     width: 50%;
+    @include iphonePlus{
+        width: 90%;
+    }
 
 }
 
@@ -33,4 +43,12 @@
 
 }
 
+.fa-check{
+    font-size: 3rem;
+    color: green;
+}
 
+.fa-times{
+    font-size: 3rem;
+    color: red;
+}
