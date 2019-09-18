@@ -10,7 +10,7 @@ const Home = (props) => {
             <div>
             <Header />
             <Form handleChange={props.handleChange} getFoods={props.getFoods} />
-
+            {props.allData.apiFailed === true ? <p className="errorMessage">Oops! Something's wrong. Re-type your search or try again later.</p> : null}
             <div>
             {props.allData.isShowing ? <div onClick={props.closeModalHandler} className="back-drop"></div> : null}
             </div>

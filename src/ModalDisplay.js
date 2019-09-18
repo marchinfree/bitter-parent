@@ -3,14 +3,14 @@ import React from 'react';
 const ModalDisplay = (props) => {
 
   return (
-    <div>
+    <div className="wrapper">
       <div className="modalFrontInfo">
         <p>Why would you eat <span className="modalNamePop">{props.allData.junkFood.food_name}</span> when <span className="modalNamePop">{props.allData.healthyFood.food_name}</span> has {(props.allData.junkFoodSugar - props.allData.healthySugar).toFixed(2)} fewer grams of sugar?</p>
       </div>
       <div className="modalBackInfo">
         <div className="healthyModalInfo">
           <ul>
-            <h2><i class="fas fa-check"></i> {props.allData.healthyFood.food_name}</h2>
+            <h2><i className="fas fa-check" aria-label="This is the healthier option."></i> {props.allData.healthyFood.food_name}</h2>
             <li>Sugar: {props.allData.healthySugar}</li>
             <li>Fat: {props.allData.healthyFat}</li>
             <li>Calories: {props.allData.healthyCalories}</li>
@@ -21,7 +21,7 @@ const ModalDisplay = (props) => {
         </div>
         <div className="junkModalInfo">
           <ul>
-            <h2><i class="fas fa-times"></i> {props.allData.junkFood.food_name}</h2>
+            <h2><i className="fas fa-times" aria-label="This food option has more sugar."></i> {props.allData.junkFood.food_name}</h2>
             <li>Sugar: {props.allData.junkFoodSugar}</li>
             <li>Fat: {props.allData.junkFood.nf_total_fat}</li>
             <li>Calories: {props.allData.junkFood.nf_calories}</li>

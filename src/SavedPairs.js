@@ -8,8 +8,8 @@ class SavedPairs extends React.Component{
                 <ul className="savedPairsWrapper">
                 {this.props.fireFoods.map(foods => {
                     return (
-                        <div className="pairWrapper">
-                            <li key={foods.uniqueKey} className="pairs">
+                        <div key={foods.uniqueKey}className="pairWrapper">
+                            <li className="pairs">
                                 <h2 className="pairName">{foods.title.junk.junkName} vs. {foods.title.healthy.healthyName}</h2>
     
                                 <ul className="healthyInfo">

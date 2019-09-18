@@ -24,6 +24,7 @@ class App extends Component {
       fireFoods: [],
       everythingHealthy: [],
       buttonClicked: false,
+      apiFailed: false,
     }
   }
 
@@ -185,12 +186,15 @@ class App extends Component {
       this.setState({
         savedPair: this.state.junkFoodSugar,
         savedPairName: (this.state.junkFood.food_name + "/" + this.state.healthyFood.food_name),
+        apiFailed: false,
       })
     })
 
 
       .catch(error => {
-        alert(`we broke it!`)
+        this.setState({
+          apiFailed: true,
+        })
       })
   }
 
@@ -229,7 +233,6 @@ class App extends Component {
         
 
         <div className="App">
-          
         </div>
         <Footer />
       </Router>
